@@ -20,6 +20,7 @@ labelEle.textContent = "Learn HTML";
 labelEle.setAttribute("for","checkboxInput");
 labelEle.classList.add("checkbox-label");
 labelContainerEle.appendChild(labelEle);
+labelContainerEle.appendChild();
 
 let delContEle = document.createElement("div");
 delContEle.classList.add("delete-icon-container");
