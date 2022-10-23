@@ -1,17 +1,29 @@
 let todoItemsEle = document.getElementById("todoItemsContainer");
 
-let todoList = [{
-    text: "Learn HTML",
-    id: 1
-}, {
-    text: "Learn CSS",
-    id: 2
-}, {
-    text: "Learn Javascript",
-    id: 3}];
+
+
+function getTodoListfromLocal(){
+    let stringList = localStorage.getItem("todoList");
+    let parsedList = JSON.parse(stringList);
+
+    if(parsedList === null){
+        return [];
+    }
+    else{
+        return parsedList;
+    }
+
+}
+
+let todoList = getTodoListfromLocal();
 
 let todoCount = todoList.length;
 
+let saveTodoButton = document.getElementById("saveTodoButton");
+
+saveTodoButton.onclick = function(){
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+}
 function onTodoStatus(checkboxId,labelId){
     let checkboxEle = document.getElementById(checkboxId);
     let labelElement = document.getElementById(labelId);
@@ -23,6 +35,18 @@ function onTodoStatus(checkboxId,labelId){
 function onclickDel(todoId){
     let todoElement = document.getElementById(todoId);
     todoItemsEle.removeChild(todoElement);
+    
+    let deleteEleId = todoList.findIndex(function(eachTodo){
+        let deleteId = "todo"+eachTodo.id;
+        if(todoId === deleteId){
+            return true;
+        }
+        else{
+            return false;
+        }
+    });
+    todoList.splice(deleteEleId,1);
+
 }
 
 function createAndAppendTodo(todo) {
@@ -89,6 +113,7 @@ function onAddTodo(){
 
     };
     createAndAppendTodo(newTodo);
+    todoList.push(newTodo);
     textInputEle.value = "";
 }
 
